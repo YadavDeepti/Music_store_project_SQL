@@ -1,11 +1,11 @@
-Q. find he senior most employee based on job title?
+--Q. find he senior most employee based on job title?
 
 Select * from employee
 Order by levels desc
 Limit 1;
 
 
-Q2. which country has the most invoices?
+--Q2. which country has the most invoices?
 
 Select Count(*) As c, billing_country 
 from invoice
@@ -13,15 +13,15 @@ Group By billing_country
 Order By c desc;
 
 
-Q3. What are top 3 values of total invoices?
+--Q3. What are top 3 values of total invoices?
 
 Select total from invoice
 Order by total desc
 limit 3;
 
 
-Q4. Which city has the highest customers.Return one city that has highest sum of invoice totals.
-    Retuen both city name and sum of all invoice totals.
+/*Q4. Which city has the highest customers.Return one city that has highest sum of invoice totals.
+    Retuen both city name and sum of all invoice totals.*/
 
 
 Select sum(total) As invoice_total, billing_city 
@@ -30,7 +30,7 @@ Group By billing_city
 Order By invoice_total desc;
 
 
-Q5. Find the highest spending customer?
+--Q5. Find the highest spending customer?
 
 
 Select customer.customer_id, customer.first_name, customer.last_name, Sum(invoice.total) As total
@@ -40,8 +40,8 @@ Group By customer.customer_id
 Order By total desc
 Limit 1;
 
-Q6. find email, first name, last name, genre of all rock bands. 
-Email should be in alphabetical order.
+/*Q6. find email, first name, last name, genre of all rock bands. 
+Email should be in alphabetical order.*/
 
 Select distinct email, first_name, last_name
 from customer
@@ -54,7 +54,7 @@ Where track_id In(
 )
 Order By email;
 
-Q7. find the artist name and total track count of the top 10 rock bands.
+--Q7. find the artist name and total track count of the top 10 rock bands.
 
 
 Select artist.artist_id, artist.name, count(artist.artist_id) As Number_of_songs
@@ -66,8 +66,9 @@ Where genre.name Like 'Rock'
 Group By artist.artist_id
 Order By Number_of_songs Desc
 Limit 10;
-Q8. Return all the track names that have a song length longer than the average lenght.Return name and 
-millisecond for track.
+
+/*Q8. Return all the track names that have a song length longer than the average lenght.Return name and 
+millisecond for track.*/
 
 Select name, milliseconds
 from track
@@ -77,8 +78,8 @@ where milliseconds > (
 					)
 ORDER bY milliseconds Desc;
 
-Q9.find how much amount spend by each customer on artist? Write the query to return customer name, 
-   artist name and total spent?
+/*Q9.find how much amount spend by each customer on artist? Write the query to return customer name, 
+   artist name and total spent?*/
 
 With best_selling_artist As(
 			Select artist.artist_id as artist_id, artist.name as artist_name,
@@ -103,7 +104,7 @@ Join best_selling_artist bsa On bsa.artist_id = alb.artist_id
 Group By 1,2,3,4
 Order By 5 Desc
 
-Q10. Find most popular genre(highest amont of purchases) for each country.
+--Q10. Find most popular genre(highest amont of purchases) for each country.
 
 With popular_genre As(
 	Select count(invoice_line.quantity) As purchases, customer.country, genre.name,genre.genre_id,
@@ -118,7 +119,7 @@ With popular_genre As(
 )
 Select * from popular_genre Where RowNumber <= 1;
 
-Q11. Find the country with highest spending customers and how much they spend.
+--Q11. Find the country with highest spending customers and how much they spend.
 With Recursive 
   customer_with_country As(
 	Select customer.customer_id, first_name, last_name, billing_country, Sum(total) As total_spending
